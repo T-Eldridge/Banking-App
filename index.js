@@ -1,32 +1,44 @@
-'use strict';
+"use strict"
 
-const assert = require('assert');
-const readline = require('linebyline');
+const assert = require("assert")
+const readline = require("linebyline")
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
-});
-
+  output: process.stdout,
+})
 
 //bank account stuff
 
 //*** */ BankAccount class - This class represents a bank account.
 
-// The class should have the following fields:
+class BankAccount {
+  // The constructor should take in the following input:
 
-// accountNumber - String representing the account number
+  // accountNumber - The account Number
 
-// owner - String representing the owner of the account
+  // owner - The name of the person who owns this account
+  constructor(accountNumber, owner) {
+    // The class should have the following fields:
+    // accountNumber - String representing the account number
+    this.accountNumber = accountNumber
+    // owner - String representing the owner of the account
+    this.owner = owner
+    // transactions - An array of transactions representing the history of all transactions associated with this account
+    this.transaction = []
+    // NOTE: When an account is created, you should initialize the transactions array to be an empty array
+  }
+  balance() {
+    function sumTotal(total, num) {
+      return total + num
+    }
+    return transactions.reduce(sumTotal)
+  }
 
-// transactions - An array of transactions representing the history of all transactions associated with this account
-
-// The constructor should take in the following input:
-
-// accountNumber - The account Number
-
-// owner - The name of the person who owns this account
-
-// NOTE: When an account is created, you should initialize the transactions array to be an empty array
+  charge(payee, amt) {
+    this.transaction = [payee, amt]
+    this.transaction.push[(payee, amt)]
+  }
+}
 
 // The class should have the following 3 methods:
 
@@ -41,32 +53,42 @@ const rl = readline.createInterface({
 // NOTE: You should not be able to charge an amount that would make your balance dip below 0
 
 // ****Transaction class - This class represents a single transaction in a bank account.
+class Transaction {
+  // The class should have the following fields:
+  // The constructor should take in the following input:
+  constructor(amount, payee) {
+    // amount - The amount on the transaction
 
+    // payee - The payee or description on the transaction
 
-// The class should have the following fields:
+    // date - The date of the transaction
+    this.date = date
+    // amount - The amount of the transaction. Positive amounts are money going into the account (deposit, refund). Negative amounts are money coming out of the account (a charge or debit).
+    this.amount = amount
+    // payee - The description or payee on the transaction
+    this.payee = payee
+  }
 
-// date - The date of the transaction
+  // NOTE: The date is not passed into the constructor. The constructor should set the date to be the current date automatically.
+}
 
-// amount - The amount of the transaction. Positive amounts are money going into the account (deposit, refund). Negative amounts are money coming out of the account (a charge or debit).
-
-// payee - The description or payee on the transaction
-
-// The constructor should take in the following input:
-
-// amount - The amount on the transaction
-
-// payee - The payee or description on the transaction
-
-// NOTE: The date is not passed into the constructor. The constructor should set the date to be the current date automatically.
-
-
+if (typeof describe === "function") {
+  describe("BankAccount", function () {
+    it("should have a accountNumber a owner a transaction unpon instantiation", function () {
+      const bankAccount1 = new BankAccount("900-300-200", "Rick Astley")
+      assert.equal(bankAccount1.accountNumber, "900-300-200")
+      assert.equal(bankAccount1.owner, "Rick Astley")
+      assert.equal(bankAccount1.transaction.length, 0)
+    })
+  })
+}
 
 const getPrompt = () => {
-  printStacks();
-  rl.question('start stack: ', (startStack) => {
-    rl.question('end stack: ', (endStack) => {
-      towersOfHanoi(startStack, endStack);
-      getPrompt();
-    });
-  });
+  printStacks()
+  rl.question("start stack: ", (startStack) => {
+    rl.question("end stack: ", (endStack) => {
+      towersOfHanoi(startStack, endStack)
+      getPrompt()
+    })
+  })
 }
