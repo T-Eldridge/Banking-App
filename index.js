@@ -1,15 +1,14 @@
-"use strict"
-
 const assert = require("assert")
 const readline = require("linebyline")
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 })
 
-//bank account stuff
+// bank account stuff
 
-//*** */ BankAccount class - This class represents a bank account.
+//* ** */ BankAccount class - This class represents a bank account.
 
 class BankAccount {
   // The constructor should take in the following input:
@@ -27,11 +26,12 @@ class BankAccount {
     this.transaction = []
     // NOTE: When an account is created, you should initialize the transactions array to be an empty array
   }
+
   balance() {
     function sumTotal(total, num) {
       return total + num
     }
-    return transactions.reduce(sumTotal)
+    return this.transaction.reduce(sumTotal)
   }
 
   charge(payee, amt) {
