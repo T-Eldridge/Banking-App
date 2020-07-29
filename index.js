@@ -1,12 +1,13 @@
 const assert = require("assert")
-const readline = require("linebyline")
+// const readline = require("linebyline")
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// })
 
 // bank account stuff
+let balance
 
 //* ** */ BankAccount class - This class represents a bank account.
 
@@ -31,7 +32,16 @@ class BankAccount {
     function sumTotal(total, num) {
       return total + num
     }
-    return this.transaction.reduce(sumTotal)
+    this.balance = this.transaction.reduce(sumTotal)
+  }
+
+  deposit(amt, payee) {
+    if (amt > 0) {
+      this.transaction.push(new Transaction(amt, payee))
+      balance = amt
+    } else {
+      return "Input a positive integer, please. Do not make me ask again..."
+    }
   }
 
   charge(payee, amt) {
@@ -62,7 +72,7 @@ class Transaction {
     // payee - The payee or description on the transaction
 
     // date - The date of the transaction
-    this.date = date
+    this.date = new Date()
     // amount - The amount of the transaction. Positive amounts are money going into the account (deposit, refund). Negative amounts are money coming out of the account (a charge or debit).
     this.amount = amount
     // payee - The description or payee on the transaction
@@ -72,13 +82,64 @@ class Transaction {
   // NOTE: The date is not passed into the constructor. The constructor should set the date to be the current date automatically.
 }
 
+// //Tests for your Bank Account App:
+
 if (typeof describe === "function") {
+  // 1. Should create Bank account: account number, name, transactions
   describe("BankAccount", function () {
-    it("should have a accountNumber a owner a transaction unpon instantiation", function () {
+    it("Should create Bank account: account number, name, transactions", function () {
       const bankAccount1 = new BankAccount("900-300-200", "Rick Astley")
       assert.equal(bankAccount1.accountNumber, "900-300-200")
       assert.equal(bankAccount1.owner, "Rick Astley")
       assert.equal(bankAccount1.transaction.length, 0)
+    })
+    // Should deposit correctly
+    // deposit(amt, payee) - Method takes in two inputs, amount and payee.
+    // Create bank account and call deposit method (amt, payee)
+    // invoke transaction(amt, payee) and push new transaction to transaction array []
+    it("Should deposit correctly", function () {
+      const kevinsBank = new BankAccount("900-300-200", "Kevin")
+      kevinsBank.deposit(1, "Todd")
+      assert.equal(kevinsBank.transaction[0].amount, 1)
+      assert.equal(kevinsBank.transaction[0].payee, "Todd")
+      kevinsBank.deposit(10, "Seabass")
+      assert.equal(kevinsBank.transaction[1].amount, 10)
+      assert.equal(kevinsBank.transaction[1].payee, "Seabass")
+    })
+    // 4. Should deduct correctly
+    // deduct(amt, payee) - takes in amount deducted and payee
+    it("Should deduct correctly", function () {
+      const kevinsBank = new BankAccount("900-300-200", "Kevin")
+      kevinsBank.deduct(10, "Kevin")
+      assert.equal(kevinsBank.transaction[0].amount, 10)
+      assert.equal(kevinsBank.transaction[0].payee, "Kevin")
+    })
+
+    // 5. Should return correct balance
+    // get sum of transaction[]
+    it("Should check balance", function () {
+      const kevinsBank = new BankAccount("900-300-200", "Kevin")
+      kevinsBank.balance(kevinsBank.transaction)
+    })
+    // 6. Should prevent overdraft
+    // do not allow deduction to be greater than balance
+    it("Should not allow an overdraft", function () {
+      const kevinsBank = new BankAccount("900-300-200", "Kevin")
+    })
+    // 7. Should not allow negative deposit
+
+    // 8. Should track multiple deposits and return accurate balance
+
+    // 9. Also, 8. should track multiple charges and return accurate balance
+  })
+  // 2. Should create Transaction: is date defined, payee, amount
+  describe("Transaction", function () {
+    it("Should have date, payee, amount", function () {
+      const transaction1 = new Transaction(50, "Mick Astley")
+      assert.equal(transaction1.amount, 50)
+      assert.equal(transaction1.payee, "Mick Astley")
+      assert.notEqual(transaction1.date, undefined)
+      assert.notEqual(transaction1.date, null)
     })
   })
 }
