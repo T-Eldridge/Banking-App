@@ -141,6 +141,12 @@ if (typeof describe === "function") {
       bankAccount1.charge(30, "Target")
       assert.equal(bankAccount1.balance(), 0)
     })
+    it("Should allow refund", function () {
+      const bankAccount1 = new BankAccount("900-300-200", "Rick Astley")
+      assert.equal(bankAccount1.balance(), 0)
+      bankAccount1.charge(-30, "Target")
+      assert.equal(bankAccount1.balance(), 30)
+    })
   })
 
   // 2. Should create Transaction: is date defined, payee, amount
@@ -158,6 +164,42 @@ if (typeof describe === "function") {
       assert.equal(transaction1.payee, "Mick Astley")
       assert.notEqual(transaction1.date, undefined)
       assert.notEqual(transaction1.date, null)
+    })
+  })
+
+  describe("Bunch of transaction and charges", function () {
+    let bigAccount = new BankAccount("11223344", "Ace Freely")
+    it("test account created", function () {
+      assert.equal("11223344", bigAccount.accountNumber)
+      assert.equal("Ace Freely", bigAccount.owner)
+      assert.equal(bigAccount.balance(), 0)
+    })
+    it("test deposits", function () {
+      bigAccount.deposit(30) //30
+      bigAccount.deposit(20) //50
+      bigAccount.deposit(5) //55
+      bigAccount.deposit(-20) //55
+      bigAccount.deposit(65) //120
+      bigAccount.deposit(15.5) //135.50
+      assert.equal(135.5, bigAccount.balance())
+    })
+
+    it("test charges", function () {
+      bigAccount.deposit(500)
+      bigAccount.charge(30) //470
+      bigAccount.charge(20) //450
+      bigAccount.charge(5) //445
+      bigAccount.charge(-20) //465
+      bigAccount.charge(65) //400
+      bigAccount.charge(15.5) //384.50 + total deposited 135.50 = 520
+      assert.equal(520, bigAccount.balance())
+      assert.equal(12, bigAccount.transaction.length)
+    })
+
+    it("test overdraft", function () {
+      bigAccount.charge(5000)
+      assert.equal(12, bigAccount.transaction.length)
+      assert.equal(520, bigAccount.balance())
     })
   })
 }
