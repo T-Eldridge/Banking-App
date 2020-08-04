@@ -15,7 +15,8 @@
     "object-shorthand": "warn",
     "class-methods-use-this": "warn",
     "max-classes-per-file": 0,
-    "endOfLine": "auto"
+    "endOfLine": "auto",
+    "no-plusplus": ["warn", { "allowForLoopAfterThoughts": true }]
   },
 
   "plugins": ["prettier", "react"],
